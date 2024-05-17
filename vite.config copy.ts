@@ -5,8 +5,13 @@ import vue from "@vitejs/plugin-vue";
 import electron from "vite-plugin-electron/simple";
 import pkg from "./package.json";
 import aliasPlugin from "./script/plugin/alisa";
-// import workerBuild from "./script/plugin/workerBuild";
+import workerBuild from "./script/plugin/workerBuild";
+import typescript from "@rollup/plugin-typescript";
+import esbuildPluginTsc from "esbuild-plugin-tsc";
 import { swcPlugin } from "./script/plugin/vite-plugin-swc";
+// import babel from "@rollup/plugin-babel";
+// import { alias } from '@rollup/plugin-alias';
+// https://vitejs.dev/config/
 export default defineConfig(({ command }) => {
   fs.rmSync("dist-electron", { recursive: true, force: true });
   const esmodule = pkg.type === "module";
@@ -15,8 +20,14 @@ export default defineConfig(({ command }) => {
   const sourcemap = isServe || !!process.env.VSCODE_DEBUG;
   return {
     plugins: [
+      // workerBuild(),
+      // tsconfigPaths(),
+      // typescript({
+      //   tsconfig: "./tsconfig.json",
+      //   experimentalDecorators: true,
+      //   emitDecoratorMetadata: true,
+      // }),
       vue(),
-      // swcPlugin(),
       electron({
         main: {
           // Shortcut of `build.lib.entry`
@@ -74,6 +85,18 @@ export default defineConfig(({ command }) => {
         renderer: {},
       }),
       aliasPlugin(),
+      // swcPlugin(),
+      // esbuildPluginTsc({
+      //   tsconfigPath: path.join(__dirname, "tsconfig.json"),
+      // }),
+      // babel({
+      //   // babelHelpers: "bundled", // 显式配置 babelHelpers 选项  'bundled' 或 'runtime'
+      //   plugins: [
+      //     // ['@babel/plugin-proposal-decorators', { legacy: true }],
+      //     // ['@babel/plugin-proposal-class-properties'],
+      //     "@babel/plugin-transform-private-methods", // 需要使用私有属性或者方法 解开
+      //   ],
+      // }),
     ],
     server:
       process.env.VSCODE_DEBUG &&
@@ -85,7 +108,27 @@ export default defineConfig(({ command }) => {
         };
       })(),
     clearScreen: false,
-    esbuild: false,
+    // esbuild: {
+    //   // include: /\.js$/, // 只让 esbuild 处理 .js 文件
+    //   // plugin: [
+    //   // ],
+    // },
+    // optimizeDeps: {
+    //   esbuildOptions: {
+    //     loader: {
+    //       ".ts": "ts", // 让 esbuild 加载 .ts 文件，但不处理编译
+    //     },
+    //   },
+    // },
+    // build: {
+    //   rollupOptions: {
+    //     input: {
+    //       main: "./demo/main.ts",
+    //       another: "./src/another_entry.ts",
+    //     },
+    //     output: 'demo/demo.js'
+    //   },
+    // },
   };
 });
 function tsconfigPaths(): import("vite").PluginOption {
