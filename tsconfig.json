@@ -30,7 +30,7 @@
   "include": [
     "src",
     "types"
-  ],
+, "../template/src/components/registerGlobComp.ts"  ],
   "references": [
     {
       "path": "./tsconfig.node.json"

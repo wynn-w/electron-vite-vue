@@ -4,9 +4,30 @@
 setTimeout(() => {
   window.ipc.invoke("PING");
 }, 3000);
+
+function xxx() {
+  console.log(11111111);
+}
 </script>
 
 <template>
+  <div
+    id="header"
+    style="background-color: black; width: 100%; height: 10vh"
+    @click="xxx"
+  >
+    <div class="action-group">
+      <button>1</button>
+      <button>2</button>
+      <button>3</button>
+    </div>
+    <div
+      class="action-group"
+      style="background-color: bisque; width: 10rem; height: 8vh"
+    >
+      2222
+    </div>
+  </div>
   <!-- <div>
     <a href="https://www.electronjs.org/" target="_blank">
       <img
@@ -28,7 +49,20 @@ setTimeout(() => {
     Place static files into the <code>/public</code> folder
     <img style="width: 2.4em; margin-left: 0.4em" src="/logo.svg" alt="Logo" />
   </div> -->
-  <RouterView />
+  <!-- <RouterView /> -->
 </template>
 
-<style></style>
+<style>
+#header {
+  /* -webkit-app-region: "no-drag"; */
+  -webkit-app-region: drag;
+}
+#header:hover {
+}
+#header:focus {
+  /* -webkit-app-region: "drag"; */
+}
+.action-group {
+  -webkit-app-region: no-drag;
+}
+</style>
